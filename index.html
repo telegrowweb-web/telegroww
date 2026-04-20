@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Telegroww – Your Growth, Our Mission</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0f0f1b; font-family: 'Poppins', sans-serif; color: #fff; overflow-x: hidden; }
@@ -13,11 +12,62 @@
     @keyframes glowText { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
     @keyframes zoomPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
     @keyframes moveGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes fadeInLeft { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:translateX(0)} }
-    @keyframes fadeInRight { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
     @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
     @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes marqueeSlideFull { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* CSS LOTTIE REPLACEMENT ANIMATIONS */
+    @keyframes orbitSpin1 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes orbitSpin2 { from{transform:rotate(120deg)} to{transform:rotate(480deg)} }
+    @keyframes orbitSpin3 { from{transform:rotate(240deg)} to{transform:rotate(600deg)} }
+    @keyframes pulseRing  { 0%{transform:scale(0.6);opacity:0.8} 100%{transform:scale(1.6);opacity:0} }
+    @keyframes floatTag   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes centerGlow { 0%,100%{filter:drop-shadow(0 0 8px #00ffe7)} 50%{filter:drop-shadow(0 0 22px #ff00f7)} }
+
+    .css-lottie {
+      position: relative;
+      width: 320px; height: 320px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(0,255,231,0.2);
+    }
+    .orbit1 { width: 200px; height: 200px; animation: orbitSpin1 6s linear infinite; }
+    .orbit2 { width: 270px; height: 270px; animation: orbitSpin2 9s linear infinite; }
+    .orbit3 { width: 310px; height: 310px; animation: orbitSpin3 13s linear infinite; }
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    }
+    .d1 { background: #00ffe7; box-shadow: 0 0 8px #00ffe7; }
+    .d2 { background: #ff00f7; box-shadow: 0 0 8px #ff00f7; }
+    .d3 { background: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
+    .center-icon {
+      width: 100px; height: 100px; z-index: 2;
+      animation: centerGlow 3s ease-in-out infinite;
+    }
+    .center-icon svg { width: 100%; height: 100%; }
+    .pulse-ring {
+      position: absolute; border-radius: 50%;
+      border: 2px solid rgba(0,255,231,0.4);
+      animation: pulseRing 2.5s ease-out infinite;
+    }
+    .r1 { width: 110px; height: 110px; animation-delay: 0s; }
+    .r2 { width: 110px; height: 110px; animation-delay: 1.25s; }
+    .floating-tag {
+      position: absolute;
+      background: rgba(17,24,39,0.92);
+      border: 1px solid rgba(0,255,224,0.3);
+      color: #fff; font-size: 0.78rem; font-weight: 600;
+      padding: 6px 12px; border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 0 12px rgba(0,255,224,0.15);
+      z-index: 5;
+    }
+    .t1 { top: 30px;  left: 10px;  animation: floatTag 3s ease-in-out infinite; }
+    .t2 { top: 30px;  right: 0px;  animation: floatTag 3.5s ease-in-out infinite 0.5s; }
+    .t3 { bottom: 50px; left: 50%; transform: translateX(-50%); animation: floatTag 4s ease-in-out infinite 1s; }
 
     .grad-text {
       background: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
@@ -152,18 +202,14 @@
     .section-heading { font-size: 2.3rem; font-weight: 800; text-align: center; margin-bottom: 15px; }
     .section-sub { font-size: 0.98rem; line-height: 1.8; color: #ccc; text-align: center; max-width: 800px; margin: 0 auto 32px; }
 
-    /* =============================================
-       LOGO CAROUSEL — big round circles only
-    ============================================= */
+    /* LOGO CAROUSEL */
     .logo-carousel-wrapper {
       position: relative;
       max-width: 1000px;
       margin: 0 auto;
       padding: 20px 70px 40px;
     }
-    .logo-carousel-track-outer {
-      overflow: hidden;
-    }
+    .logo-carousel-track-outer { overflow: hidden; }
     .logo-carousel-track {
       display: flex;
       gap: 50px;
@@ -172,23 +218,12 @@
     }
     .logo-slide {
       flex: 0 0 calc(33.333% - 34px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: none;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      cursor: default;
-    }
-    .logo-slide:hover {
-      border: none;
-      box-shadow: none;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; border-radius: 0; padding: 0; cursor: default;
     }
     .logo-slide .logo-img-wrap {
       width: 160px; height: 160px;
-      border-radius: 50%;
-      overflow: hidden;
+      border-radius: 50%; overflow: hidden;
       border: 3px solid rgba(255,255,255,0.5);
       background: rgba(255,255,255,0.06);
       display: flex; align-items: center; justify-content: center;
@@ -199,12 +234,9 @@
       transform: scale(1.06);
       box-shadow: 0 0 24px rgba(0,255,224,0.25);
     }
-    .logo-slide .logo-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    .logo-slide .logo-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .carousel-btn {
-      position: absolute; top: 50%;
-      transform: translateY(-50%);
+      position: absolute; top: 50%; transform: translateY(-50%);
       background: rgba(17,24,39,0.92);
       border: 1px solid rgba(0,255,224,0.3); color: #00ffe0;
       width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
@@ -215,21 +247,14 @@
     .carousel-btn.prev { left: 4px; }
     .carousel-btn.next { right: 4px; }
     .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-    .carousel-dots {
-      display: flex; justify-content: center; gap: 8px; margin-top: 20px;
-    }
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
     .carousel-dot {
       width: 8px; height: 8px; border-radius: 50%;
       background: rgba(255,255,255,0.2);
       border: none; cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-      padding: 0;
+      transition: background 0.3s, transform 0.3s; padding: 0;
     }
-    .carousel-dot.active {
-      background: #00ffe7;
-      transform: scale(1.3);
-    }
+    .carousel-dot.active { background: #00ffe7; transform: scale(1.3); }
 
     /* GROWTH */
     .growth-section {
@@ -246,8 +271,8 @@
     .feature span { color: #fff; font-weight: 600; }
     .cta-line { margin-top: 18px; color: #00ffe7; font-weight: 500; font-size: 0.92rem; }
     .growth-image { flex: 1 1 42%; }
-    .growth-image .img-box { min-height: 310px; }
     .growth-image img { width: 100%; max-width: 480px; border-radius: 20px; box-shadow: 0 0 30px rgba(0,255,224,0.15); }
+    .growth-image .img-box { min-height: 310px; }
 
     /* NEON SECTION */
     .neon-section {
@@ -256,7 +281,7 @@
       background-image: linear-gradient(45deg, #111 25%, #0f0f1b 25%, #0f0f1b 50%, #111 50%, #111 75%, #0f0f1b 75%);
       background-size: 60px 60px; gap: 30px;
     }
-    .neon-left { flex: 1 1 42%; display: flex; justify-content: center; }
+    .neon-left { flex: 1 1 42%; display: flex; justify-content: center; align-items: center; }
     .neon-right { flex: 1 1 45%; }
     .neon-right h2 { font-size: 2rem; font-weight: 700; margin-bottom: 14px; }
     .neon-right p { font-size: 0.96rem; line-height: 1.7; color: #ccc; margin-bottom: 22px; }
@@ -327,24 +352,19 @@
     .footer-left { flex: 1 1 250px; }
     .footer-logo { width: 140px; border-radius: 14px; border: 2px solid #00ffe7; box-shadow: 0 0 8px #00ffe7; margin-bottom: 14px; display: block; }
     .footer-brand { font-size: 1.7rem; font-weight: 700; margin-bottom: 14px; display: block; }
-    
-    /* SOCIAL ICONS IN FOOTER */
     .social-icons { display: flex; gap: 14px; margin-bottom: 20px; align-items: center; }
     .social-icons a {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
       text-decoration: none !important;
       transition: transform 0.3s, box-shadow 0.3s;
-      overflow: hidden;
-      border: 2px solid rgba(255,255,255,0.1);
+      overflow: hidden; border: 2px solid rgba(255,255,255,0.1);
     }
-    .social-icons a:hover { transform: scale(1.15); }
+    .social-icons a:hover { transform: scale(1.15); box-shadow: 0 0 14px rgba(255,255,255,0.3); }
     .social-icons a.whatsapp { background: #25D366; border-color: #25D366; }
     .social-icons a.facebook { background: #1877F2; border-color: #1877F2; }
     .social-icons a.instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; }
-    .social-icons a:hover { box-shadow: 0 0 14px rgba(255,255,255,0.3); }
     .social-icons a svg { width: 24px; height: 24px; fill: #fff; }
-
     .footer-btns { display: flex; flex-wrap: wrap; gap: 10px; }
     .neon-button {
       color: #0ff; background: transparent; border: 1px solid #0ff;
@@ -381,6 +401,10 @@
       .logo-slide { flex: 0 0 calc(100% - 0px); }
       .logo-carousel-wrapper { padding: 0 50px 30px; }
       .logo-slide .logo-img-wrap { width: 120px; height: 120px; }
+      .css-lottie { width: 260px; height: 260px; }
+      .orbit1 { width: 160px; height: 160px; }
+      .orbit2 { width: 210px; height: 210px; }
+      .orbit3 { width: 250px; height: 250px; }
     }
     @media (max-width: 480px) {
       .hero-heading { font-size: 1.45rem; }
@@ -429,7 +453,6 @@
     <div id="hero-placeholder" class="img-box" style="display:none; min-height:360px; border-radius:0;">
       <span class="icon">🖥️</span>
       <strong>HERO DASHBOARD IMAGE</strong>
-      <span>Upload your dashboard screenshot here<br>Replace src="https://betagramexch.online/wp-content/uploads/2026/04/52caf931-ed86-443d-a37b-da832c99134f.jpeg-scaled-1.jpg"</span>
     </div>
   </div>
   <p style="text-align:center; color:#ccc; font-size:0.98rem; line-height:1.8; max-width:760px; margin:34px auto 0;">
@@ -445,41 +468,32 @@
   <h2 class="section-heading grad-text">Trusted by Companies Worldwide</h2>
   <p class="section-sub">At Telegroww, we excel in helping diverse channels thrive. Our expertise in delivering targeted ads ensures that your channel captures attention, drives engagement, and increases membership. Let us assist you in growing your community and achieving your goals.</p>
 
-  <!-- =============================================
-       3-CARD CAROUSEL WITH ARROWS + DOTS
-       Each slide shows Logo + Name + Description
-       Shows 3 at a time on desktop, 2 on tablet, 1 on mobile
-  ============================================= -->
   <div class="logo-carousel-wrapper">
     <button class="carousel-btn prev" id="logoPrev" onclick="logoCarousel(-1)">&#8249;</button>
     <div class="logo-carousel-track-outer">
       <div class="logo-carousel-track" id="logoTrack">
 
-        <!-- CLIENT 1: Mahakal Book — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
-            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo20.jpg" alt="Mahakal Book"
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo20.jpg" alt="Client 1"
                  onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(100,0,200,0.7);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>MAHAKAL<br>BOOK</div>'">
           </div>
         </div>
 
-        <!-- CLIENT 2: Lotus365 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
-            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo11.jpg" alt="Lotus365"
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo11.jpg" alt="Client 2"
                  onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,140,0,0.85);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>LOTUS<br>365</div>'">
           </div>
         </div>
 
-        <!-- CLIENT 3: Pari Book — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
-            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo13.jpg" alt="Pari Book"
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo13.jpg" alt="Client 3"
                  onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(20,20,20,0.9);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:#d4af37;\'>PARI<br>BOOK</div>'">
           </div>
         </div>
 
-        <!-- CLIENT 4 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo12.jpg" alt="Client 4"
@@ -487,7 +501,6 @@
           </div>
         </div>
 
-        <!-- CLIENT 5 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo4.jpg" alt="Client 5"
@@ -495,7 +508,6 @@
           </div>
         </div>
 
-        <!-- CLIENT 6 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo1.jpg" alt="Client 6"
@@ -503,7 +515,6 @@
           </div>
         </div>
 
-        <!-- CLIENT 7 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo3.jpg" alt="Client 7"
@@ -511,7 +522,6 @@
           </div>
         </div>
 
-        <!-- CLIENT 8 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo2.jpg" alt="Client 8"
@@ -519,7 +529,6 @@
           </div>
         </div>
 
-        <!-- CLIENT 9 — replace src with your logo image -->
         <div class="logo-slide">
           <div class="logo-img-wrap">
             <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo5.jpg" alt="Client 9"
@@ -530,8 +539,6 @@
       </div>
     </div>
     <button class="carousel-btn next" id="logoNext" onclick="logoCarousel(1)">&#8250;</button>
-
-    <!-- Dots -->
     <div class="carousel-dots" id="logoDots"></div>
   </div>
 </section>
@@ -541,11 +548,7 @@
   <div class="growth-image">
     <img src="https://betagramexch.online/wp-content/uploads/2026/04/Untitled_design-removebg-preview.png" alt="Phone Mockup"
          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-    <div class="img-box" style="display:none; min-height:310px;">
-      <span class="icon">📱</span>
-      <strong>PHONE MOCKUP IMAGE</strong>
-      <span>Upload: growth_phones.png</span>
-    </div>
+    <div class="img-box" style="display:none; min-height:310px;"><span class="icon">📱</span><strong>PHONE MOCKUP IMAGE</strong></div>
   </div>
   <div class="growth-text">
     <h2 class="grad-text">Empowering Channels with Targeted Ads for Unmatched Growth</h2>
@@ -558,15 +561,31 @@
   </div>
 </div>
 
-<!-- NEON LOTTIE SECTION -->
+<!-- NEON SECTION — CSS ANIMATION (no Lottie needed!) -->
 <div class="neon-section">
   <div class="neon-left">
-    <lottie-player
-      src="https://telegroww.in/wp-content/uploads/2025/05/Animation-1718362793690.json"
-      background="transparent" speed="1"
-      style="max-width:360px; width:100%; height:auto;"
-      loop autoplay>
-    </lottie-player>
+    <div class="css-lottie">
+      <div class="orbit orbit1"><div class="dot d1"></div></div>
+      <div class="orbit orbit2"><div class="dot d2"></div></div>
+      <div class="orbit orbit3"><div class="dot d3"></div></div>
+      <div class="center-icon">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="32" stroke="url(#g1)" stroke-width="3" fill="rgba(0,255,231,0.05)"/>
+          <path d="M26 40 L35 49 L54 31" stroke="#00ffe7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="80" y2="80">
+              <stop offset="0%" stop-color="#00ffe7"/>
+              <stop offset="100%" stop-color="#ff00f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="pulse-ring r1"></div>
+      <div class="pulse-ring r2"></div>
+      <div class="floating-tag t1">📈 +2.4K Members</div>
+      <div class="floating-tag t2">🎯 CTR 15.67%</div>
+      <div class="floating-tag t3">✅ Status: Active</div>
+    </div>
   </div>
   <div class="neon-right">
     <h2 class="grad-text">Transform Your Channel with Telegroww</h2>
@@ -583,19 +602,19 @@
     <div class="testi-track" id="testiTrack">
       <div class="testi-card">
         <img src="https://betagramexch.online/wp-content/uploads/2026/04/4.png" alt="Review 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 1</strong><span>Upload: review_1.png</span></div>
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 1</strong></div>
       </div>
       <div class="testi-card">
         <img src="https://betagramexch.online/wp-content/uploads/2026/04/3.png" alt="Review 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 2</strong><span>Upload: review_2.png</span></div>
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 2</strong></div>
       </div>
       <div class="testi-card">
         <img src="https://betagramexch.online/wp-content/uploads/2026/04/2.png" alt="Review 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 3</strong><span>Upload: review_3.png</span></div>
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 3</strong></div>
       </div>
       <div class="testi-card">
         <img src="https://betagramexch.online/wp-content/uploads/2026/04/1.png" alt="Review 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 4</strong><span>Upload: review_4.png</span></div>
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 4</strong></div>
       </div>
     </div>
     <button class="slider-btn slider-prev" onclick="slideTesti(-1)">‹</button>
@@ -616,7 +635,7 @@
   </p>
   <div class="devices-box">
     <img src="https://betagramexch.online/wp-content/uploads/2026/04/Untitled_design_-_2024-06-14T155738.822-removebg-preview.png" alt="All Devices" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-    <div class="img-box" style="display:none; min-height:240px;"><span class="icon">💻</span><strong>DEVICES MOCKUP IMAGE</strong><span>Upload: devices_mockup.png</span></div>
+    <div class="img-box" style="display:none; min-height:240px;"><span class="icon">💻</span><strong>DEVICES MOCKUP IMAGE</strong></div>
   </div>
 </section>
 
@@ -630,7 +649,7 @@
     </div>
     <div class="world-side">
       <img src="https://betagramexch.online/wp-content/uploads/2026/04/world-map-on-white-color-world-map-template-with-continents-north-and-south-america-europe-and-asia-africa-and-australia-png.webp" alt="World Map" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="img-box" style="display:none; min-height:200px;"><span class="icon">🌍</span><strong>WORLD MAP IMAGE</strong><span>Upload: world_map.png</span></div>
+      <div class="img-box" style="display:none; min-height:200px;"><span class="icon">🌍</span><strong>WORLD MAP IMAGE</strong></div>
     </div>
   </div>
 </section>
@@ -659,29 +678,17 @@
     <div class="footer-left">
       <img src="https://betagramexch.online/wp-content/uploads/2026/04/Add-a-little-bit-of-body-text-71.png" alt="Telegroww" class="footer-logo" onerror="this.style.opacity='0'">
       <span class="footer-brand grad-text">Telegroww</span>
-
-      <!-- SOCIAL ICONS WITH PROPER SVG LOGOS -->
       <div class="social-icons">
-        <!-- WhatsApp -->
         <a href="http://wa.me/918306790277" class="whatsapp" title="WhatsApp">
-          <svg viewBox="0 0 32 32">
-            <path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.217 6.338L4.5 28l6.809-1.686A11.94 11.94 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10c-1.79 0-3.47-.472-4.926-1.299L10.5 25l1.322-4.46A9.947 9.947 0 016 15c0-5.523 4.477-10 10-10zm-3.5 5c-.25 0-.643.094-.981.438C11.181 10.781 10 12.188 10 13.875c0 1.688 1.25 3.313 1.438 3.563.188.25 2.438 3.875 5.968 5.281 2.975 1.177 3.532.938 4.094.875.563-.063 1.813-.75 2.063-1.469.25-.719.25-1.344.188-1.469-.063-.125-.25-.188-.5-.313s-1.563-.781-1.813-.875c-.25-.094-.375-.125-.563.125-.188.25-.75.875-.938 1.063-.188.188-.375.219-.688.063-.313-.156-1.313-.469-2.5-1.5-.938-.813-1.563-1.813-1.75-2.063-.188-.25-.019-.375.131-.5.147-.125.313-.344.469-.531.156-.188.219-.313.313-.5.094-.188.063-.344-.031-.5-.094-.156-.563-1.375-.781-1.875-.219-.5-.438-.406-.563-.406h-.375z"/>
-          </svg>
+          <svg viewBox="0 0 32 32"><path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.217 6.338L4.5 28l6.809-1.686A11.94 11.94 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10c-1.79 0-3.47-.472-4.926-1.299L10.5 25l1.322-4.46A9.947 9.947 0 016 15c0-5.523 4.477-10 10-10zm-3.5 5c-.25 0-.643.094-.981.438C11.181 10.781 10 12.188 10 13.875c0 1.688 1.25 3.313 1.438 3.563.188.25 2.438 3.875 5.968 5.281 2.975 1.177 3.532.938 4.094.875.563-.063 1.813-.75 2.063-1.469.25-.719.25-1.344.188-1.469-.063-.125-.25-.188-.5-.313s-1.563-.781-1.813-.875c-.25-.094-.375-.125-.563.125-.188.25-.75.875-.938 1.063-.188.188-.375.219-.688.063-.313-.156-1.313-.469-2.5-1.5-.938-.813-1.563-1.813-1.75-2.063-.188-.25-.019-.375.131-.5.147-.125.313-.344.469-.531.156-.188.219-.313.313-.5.094-.188.063-.344-.031-.5-.094-.156-.563-1.375-.781-1.875-.219-.5-.438-.406-.563-.406h-.375z"/></svg>
         </a>
-        <!-- Facebook -->
         <a href="https://www.facebook.com/profile.php?id=61560965270396" class="facebook" title="Facebook">
-          <svg viewBox="0 0 32 32">
-            <path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 5.996 4.4 10.983 10.156 11.85V18.5h-3v-3.5h3v-2.688c0-2.969 1.77-4.594 4.469-4.594 1.293 0 2.656.125 3.531.25v3.063h-2c-1.5 0-1.656.688-1.656 1.75V15h3.344l-.5 3.5H18.5v8.35C24.286 25.999 28 21.108 28 15c0-6.627-5.373-12-12-12z"/>
-          </svg>
+          <svg viewBox="0 0 32 32"><path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 5.996 4.4 10.983 10.156 11.85V18.5h-3v-3.5h3v-2.688c0-2.969 1.77-4.594 4.469-4.594 1.293 0 2.656.125 3.531.25v3.063h-2c-1.5 0-1.656.688-1.656 1.75V15h3.344l-.5 3.5H18.5v8.35C24.286 25.999 28 21.108 28 15c0-6.627-5.373-12-12-12z"/></svg>
         </a>
-        <!-- Instagram -->
         <a href="https://www.instagram.com/telegroww/" class="instagram" title="Instagram">
-          <svg viewBox="0 0 32 32">
-            <path fill="white" d="M16 4c-3.264 0-3.674.014-4.95.072-1.27.058-2.138.26-2.898.555a5.854 5.854 0 00-2.117 1.378A5.854 5.854 0 004.657 8.12c-.295.76-.497 1.628-.555 2.898C4.014 12.294 4 12.704 4 16s.014 3.674.072 4.95c.058 1.27.26 2.138.555 2.898a5.854 5.854 0 001.378 2.117 5.854 5.854 0 002.117 1.378c.76.295 1.628.497 2.898.555C11.294 27.986 11.704 28 16 28s3.674-.014 4.95-.072c1.27-.058 2.138-.26 2.898-.555a5.854 5.854 0 002.117-1.378 5.854 5.854 0 001.378-2.117c.295-.76.497-1.628.555-2.898C27.986 19.706 28 19.296 28 16s-.014-3.674-.072-4.95c-.058-1.27-.26-2.138-.555-2.898a5.854 5.854 0 00-1.378-2.117A5.854 5.854 0 0023.878 4.6c-.76-.295-1.628-.497-2.898-.555C19.706 4.014 19.296 4 16 4zm0 2.162c3.204 0 3.584.012 4.85.07 1.17.053 1.805.249 2.228.413.56.217.96.477 1.38.896.42.42.68.82.896 1.38.164.423.36 1.058.413 2.228.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.17-.249 1.805-.413 2.228a3.72 3.72 0 01-.896 1.38 3.72 3.72 0 01-1.38.896c-.423.164-1.058.36-2.228.413-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.053-1.805-.249-2.228-.413a3.72 3.72 0 01-1.38-.896 3.72 3.72 0 01-.896-1.38c-.164-.423-.36-1.058-.413-2.228C6.174 19.584 6.162 19.204 6.162 16s.012-3.584.07-4.85c.053-1.17.249-1.805.413-2.228.217-.56.477-.96.896-1.38.42-.42.82-.68 1.38-.896.423-.164 1.058-.36 2.228-.413C12.415 6.174 12.796 6.162 16 6.162zm0 3.676a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm7.846-10.406a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
-          </svg>
+          <svg viewBox="0 0 32 32"><path fill="white" d="M16 4c-3.264 0-3.674.014-4.95.072-1.27.058-2.138.26-2.898.555a5.854 5.854 0 00-2.117 1.378A5.854 5.854 0 004.657 8.12c-.295.76-.497 1.628-.555 2.898C4.014 12.294 4 12.704 4 16s.014 3.674.072 4.95c.058 1.27.26 2.138.555 2.898a5.854 5.854 0 001.378 2.117 5.854 5.854 0 002.117 1.378c.76.295 1.628.497 2.898.555C11.294 27.986 11.704 28 16 28s3.674-.014 4.95-.072c1.27-.058 2.138-.26 2.898-.555a5.854 5.854 0 002.117-1.378 5.854 5.854 0 001.378-2.117c.295-.76.497-1.628.555-2.898C27.986 19.706 28 19.296 28 16s-.014-3.674-.072-4.95c-.058-1.27-.26-2.138-.555-2.898a5.854 5.854 0 00-1.378-2.117A5.854 5.854 0 0023.878 4.6c-.76-.295-1.628-.497-2.898-.555C19.706 4.014 19.296 4 16 4zm0 2.162c3.204 0 3.584.012 4.85.07 1.17.053 1.805.249 2.228.413.56.217.96.477 1.38.896.42.42.68.82.896 1.38.164.423.36 1.058.413 2.228.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.17-.249 1.805-.413 2.228a3.72 3.72 0 01-.896 1.38 3.72 3.72 0 01-1.38.896c-.423.164-1.058.36-2.228.413-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.053-1.805-.249-2.228-.413a3.72 3.72 0 01-1.38-.896 3.72 3.72 0 01-.896-1.38c-.164-.423-.36-1.058-.413-2.228C6.174 19.584 6.162 19.204 6.162 16s.012-3.584.07-4.85c.053-1.17.249-1.805.413-2.228.217-.56.477-.96.896-1.38.42-.42.82-.68 1.38-.896.423-.164 1.058-.36 2.228-.413C12.415 6.174 12.796 6.162 16 6.162zm0 3.676a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm7.846-10.406a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg>
         </a>
       </div>
-
       <div class="footer-btns">
         <a href="https://www.termsfeed.com/live/51279bdf-a375-47f2-96f1-b154c9a79faf" class="neon-button">Terms & Conditions</a>
         <a href="https://www.freeprivacypolicy.com/live/177e1ec0-46a2-40a9-8ada-ad19bb9b11a3" class="neon-button">Privacy Policy</a>
@@ -725,9 +732,7 @@
     }, 400);
   }, 3000);
 
-  // =============================================
-  // LOGO CAROUSEL — 3 at a time with dots
-  // =============================================
+  // LOGO CAROUSEL
   (function initLogoCarousel() {
     const track = document.getElementById('logoTrack');
     const dotsContainer = document.getElementById('logoDots');
@@ -741,10 +746,7 @@
       if (window.innerWidth <= 768) return 2;
       return 3;
     }
-
-    function totalPages() {
-      return Math.ceil(slides.length / getPerView());
-    }
+    function totalPages() { return Math.ceil(slides.length / getPerView()); }
 
     function createDots() {
       dotsContainer.innerHTML = '';
@@ -755,34 +757,23 @@
         dotsContainer.appendChild(dot);
       }
     }
-
     function updateDots() {
       dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
         d.classList.toggle('active', i === currentIndex);
       });
     }
-
     function goTo(index) {
       const perView = getPerView();
       const maxIndex = totalPages() - 1;
       currentIndex = Math.max(0, Math.min(index, maxIndex));
-      const slideWidth = slides[0].offsetWidth + 30; // gap is 30px
+      const slideWidth = slides[0].offsetWidth + 50;
       track.style.transform = `translateX(-${currentIndex * perView * slideWidth}px)`;
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex >= maxIndex;
       updateDots();
     }
-
-    window.logoCarousel = function(dir) {
-      goTo(currentIndex + dir);
-    };
-
-    window.addEventListener('resize', () => {
-      currentIndex = 0;
-      createDots();
-      goTo(0);
-    });
-
+    window.logoCarousel = function(dir) { goTo(currentIndex + dir); };
+    window.addEventListener('resize', () => { currentIndex = 0; createDots(); goTo(0); });
     createDots();
     goTo(0);
   })();
