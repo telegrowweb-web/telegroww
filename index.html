@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Telegroww – Your Growth, Our Mission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f0f1b; font-family: 'Poppins', sans-serif; color: #fff; overflow-x: hidden; }
+
+    @keyframes glowText { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes zoomPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
+    @keyframes moveGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes fadeInLeft { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes fadeInRight { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
+    @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes marqueeSlideFull { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    .grad-text {
+      background: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glowText 6s linear infinite;
+    }
+
+    /* CTA BUTTON */
+    .cta-button {
+      display: inline-block;
+      padding: 13px 38px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      border-radius: 999px;
+      background: transparent;
+      background-image: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      background-size: 300%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glowText 5s linear infinite, zoomPulse 4s ease-in-out infinite;
+      transition: all 0.4s ease;
+      text-decoration: none !important;
+      border: 2px solid rgba(0,255,231,0.35);
+    }
+    .cta-button::before {
+      content: "";
+      position: absolute; top:-3px;left:-3px;right:-3px;bottom:-3px;
+      background: linear-gradient(135deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      border-radius: 999px; z-index: -1;
+      filter: blur(20px); opacity: 0.18;
+      animation: moveGlow 8s ease infinite;
+    }
+    .cta-button:hover {
+      background: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      -webkit-text-fill-color: #0f0f1b;
+      background-clip: border-box;
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #ff00f7;
+      transform: scale(1.06); border-color: transparent;
+    }
+
+    /* IMAGE PLACEHOLDER */
+    .img-box {
+      background: rgba(0,255,224,0.03);
+      border: 2px dashed rgba(0,255,224,0.2);
+      border-radius: 16px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: rgba(0,255,224,0.45);
+      font-size: 0.82rem; font-weight: 500;
+      gap: 12px; text-align: center; padding: 24px;
+      line-height: 1.5;
+    }
+    .img-box .icon { font-size: 2.2rem; opacity: 0.5; }
+
+    /* NAVBAR */
+    header {
+      background: #111827;
+      padding: 10px 30px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+    }
+    .logo img { height: 68px; filter: drop-shadow(0 0 5px #00ffe0); border-radius: 10px; }
+    nav { display: flex; gap: 6px; }
+    nav a {
+      text-decoration: none !important; color: #fff; font-size: 15px;
+      padding: 9px 15px; border-radius: 6px;
+      display: flex; align-items: center; gap: 7px;
+      transition: all 0.3s ease;
+    }
+    nav a svg { fill: #00ffe0; width: 17px; height: 17px; transition: transform 0.3s ease; }
+    nav a:hover { background-color: rgba(0,255,224,0.1); }
+    nav a:hover svg { transform: scale(1.2); }
+    .menu-toggle {
+      display: none;
+      background: linear-gradient(45deg, #00ffe0, #00bfff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 30px; border: none; cursor: pointer;
+    }
+    .mobile-nav {
+      position: fixed; top: 0; right: -100%;
+      width: 260px; height: 100vh; background: #111827;
+      padding: 60px 20px 20px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: right 0.4s ease; z-index: 9999;
+    }
+    .mobile-nav.open { right: 0; }
+    .mobile-nav a {
+      text-decoration: none !important; color: #fff; font-size: 17px;
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(0,255,224,0.05); padding: 10px 14px; border-radius: 8px;
+    }
+    .mobile-nav a svg { fill: #00ffe0; width: 20px; height: 20px; }
+    .mobile-nav a:hover { background: rgba(0,255,224,0.15); }
+    .close-btn { position: absolute; top: 20px; right: 20px; font-size: 28px; color: #00ffe0; cursor: pointer; }
+
+    /* HERO */
+    #home { padding: 60px 20px 50px; text-align: center; }
+    .hero-heading {
+      font-size: 2.8rem; font-weight: 700; line-height: 1.4;
+      margin: 0 auto 8px; max-width: 900px;
+    }
+    .highlighted-word {
+      display: inline-block; font-weight: 900;
+      background: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s ease infinite;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .highlighted-word.animate-out { opacity: 0; transform: translateY(15px); }
+    .highlighted-word.animate-in { opacity: 1; transform: translateY(0); }
+    .hero-img-wrap {
+      max-width: 680px; margin: 38px auto 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(0,255,224,0.2);
+      box-shadow: 0 0 50px rgba(0,255,224,0.1), 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .hero-img-wrap img { width: 100%; display: block; }
+    .hero-img-wrap .img-box { min-height: 360px; border-radius: 0; border: none; font-size: 0.9rem; }
+
+    /* ABOUT */
+    #about { padding: 55px 20px 15px; }
+    .section-heading { font-size: 2.3rem; font-weight: 800; text-align: center; margin-bottom: 15px; }
+    .section-sub { font-size: 0.98rem; line-height: 1.8; color: #ccc; text-align: center; max-width: 800px; margin: 0 auto 32px; }
+
+    /* =============================================
+       LOGO CAROUSEL — big round circles only
+    ============================================= */
+    .logo-carousel-wrapper {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 70px 40px;
+    }
+    .logo-carousel-track-outer {
+      overflow: hidden;
+    }
+    .logo-carousel-track {
+      display: flex;
+      gap: 50px;
+      align-items: center;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .logo-slide {
+      flex: 0 0 calc(33.333% - 34px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      cursor: default;
+    }
+    .logo-slide:hover {
+      border: none;
+      box-shadow: none;
+    }
+    .logo-slide .logo-img-wrap {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .logo-slide:hover .logo-img-wrap {
+      transform: scale(1.06);
+      box-shadow: 0 0 24px rgba(0,255,224,0.25);
+    }
+    .logo-slide .logo-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .carousel-btn {
+      position: absolute; top: 50%;
+      transform: translateY(-50%);
+      background: rgba(17,24,39,0.92);
+      border: 1px solid rgba(0,255,224,0.3); color: #00ffe0;
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+      font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; z-index: 10;
+    }
+    .carousel-btn:hover { background: rgba(0,255,224,0.15); box-shadow: 0 0 12px rgba(0,255,224,0.3); }
+    .carousel-btn.prev { left: 4px; }
+    .carousel-btn.next { right: 4px; }
+    .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 8px; margin-top: 20px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      padding: 0;
+    }
+    .carousel-dot.active {
+      background: #00ffe7;
+      transform: scale(1.3);
+    }
+
+    /* GROWTH */
+    .growth-section {
+      display: flex; flex-direction: row-reverse;
+      align-items: center; justify-content: space-between;
+      max-width: 1200px; margin: 50px auto;
+      padding: 20px 30px; gap: 50px; flex-wrap: wrap;
+    }
+    .growth-text { flex: 1 1 50%; }
+    .growth-text h2 { font-size: 2rem; font-weight: 700; margin-bottom: 16px; }
+    .growth-text p { font-size: 0.96rem; line-height: 1.7; margin-bottom: 16px; color: #ccc; }
+    .feature { margin-bottom: 12px; padding-left: 26px; font-size: 0.93rem; color: #ccc; position: relative; }
+    .feature::before { content:"★"; position:absolute; left:0; color:#ffaa00; animation:pulse 2s infinite; }
+    .feature span { color: #fff; font-weight: 600; }
+    .cta-line { margin-top: 18px; color: #00ffe7; font-weight: 500; font-size: 0.92rem; }
+    .growth-image { flex: 1 1 42%; }
+    .growth-image .img-box { min-height: 310px; }
+    .growth-image img { width: 100%; max-width: 480px; border-radius: 20px; box-shadow: 0 0 30px rgba(0,255,224,0.15); }
+
+    /* NEON SECTION */
+    .neon-section {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; padding: 60px 40px;
+      background-image: linear-gradient(45deg, #111 25%, #0f0f1b 25%, #0f0f1b 50%, #111 50%, #111 75%, #0f0f1b 75%);
+      background-size: 60px 60px; gap: 30px;
+    }
+    .neon-left { flex: 1 1 42%; display: flex; justify-content: center; }
+    .neon-right { flex: 1 1 45%; }
+    .neon-right h2 { font-size: 2rem; font-weight: 700; margin-bottom: 14px; }
+    .neon-right p { font-size: 0.96rem; line-height: 1.7; color: #ccc; margin-bottom: 22px; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: #0f0f1b; padding: 65px 20px; }
+    .testi-wrap { position: relative; max-width: 1060px; margin: 0 auto; overflow: hidden; }
+    .testi-track { display: flex; gap: 22px; transition: transform 0.5s ease; }
+    .testi-card {
+      flex: 0 0 calc(33.333% - 15px);
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(0,255,224,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    .testi-card img { width: 100%; display: block; }
+    .testi-card .img-box { min-height: 210px; border-radius: 0; border: none; font-size: 0.8rem; }
+    .slider-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(17,24,39,0.92);
+      border: 1px solid rgba(0,255,224,0.3); color: #00ffe0;
+      width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+      font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; z-index: 10;
+    }
+    .slider-btn:hover { background: rgba(0,255,224,0.15); }
+    .slider-prev { left: -21px; }
+    .slider-next { right: -21px; }
+
+    /* PRICING */
+    #pricing { background: #0f0f1b; padding: 60px 20px 30px; text-align: center; }
+    .devices-box { max-width: 580px; margin: 28px auto 0; }
+    .devices-box img { width: 100%; display: block; }
+    .devices-box .img-box { min-height: 240px; }
+
+    /* PROMO + WORLD */
+    .promo-world {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 40px;
+      max-width: 1080px; margin: 0 auto; padding: 35px 30px 50px;
+    }
+    .promo-text { flex: 1 1 42%; text-align: center; }
+    .promo-text h2 { font-size: 2rem; font-weight: 700; margin-bottom: 14px; }
+    .promo-text p { font-size: 0.96rem; line-height: 1.7; color: #ccc; margin-bottom: 24px; }
+    .world-side { flex: 1 1 38%; }
+    .world-side img { width: 100%; max-width: 380px; opacity: 0.9; }
+    .world-side .img-box { min-height: 200px; }
+
+    /* COUNTERS */
+    .counter-section { background: #0f0f1b; padding: 15px 20px 55px; }
+    .counter-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; max-width: 1000px; margin: 0 auto; }
+    .plain-counter { text-align: center; flex: 1 1 200px; }
+    .plain-counter .count {
+      font-size: 3rem; font-weight: 800;
+      background: linear-gradient(90deg, #00ffe7, #00aaff, #ff00f7, #ffaa00);
+      background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: glowText 5s ease-in-out infinite;
+    }
+    .plain-counter p { margin-top: 6px; font-size: 0.98rem; color: #bbb; }
+
+    /* CONSULTANCY */
+    .consult-section { background: #0f0f1b; padding: 50px 20px; text-align: center; }
+    .consult-section h2 { font-size: 2.4rem; font-weight: 800; margin-bottom: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .consult-section p { font-size: 0.96rem; line-height: 1.8; color: #ccc; max-width: 780px; margin: 0 auto 30px; }
+
+    /* FOOTER */
+    footer { background: #080812; border-top: 1px solid rgba(0,255,224,0.1); padding: 55px 30px 25px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
+    .footer-left { flex: 1 1 250px; }
+    .footer-logo { width: 140px; border-radius: 14px; border: 2px solid #00ffe7; box-shadow: 0 0 8px #00ffe7; margin-bottom: 14px; display: block; }
+    .footer-brand { font-size: 1.7rem; font-weight: 700; margin-bottom: 14px; display: block; }
+    
+    /* SOCIAL ICONS IN FOOTER */
+    .social-icons { display: flex; gap: 14px; margin-bottom: 20px; align-items: center; }
+    .social-icons a {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      text-decoration: none !important;
+      transition: transform 0.3s, box-shadow 0.3s;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .social-icons a:hover { transform: scale(1.15); }
+    .social-icons a.whatsapp { background: #25D366; border-color: #25D366; }
+    .social-icons a.facebook { background: #1877F2; border-color: #1877F2; }
+    .social-icons a.instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; }
+    .social-icons a:hover { box-shadow: 0 0 14px rgba(255,255,255,0.3); }
+    .social-icons a svg { width: 24px; height: 24px; fill: #fff; }
+
+    .footer-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .neon-button {
+      color: #0ff; background: transparent; border: 1px solid #0ff;
+      padding: 7px 16px; border-radius: 30px;
+      text-decoration: none !important; transition: 0.3s; font-weight: 500; font-size: 0.88rem;
+    }
+    .neon-button:hover { background: #0ff; color: #000; box-shadow: 0 0 10px #0ff; transform: translateY(-2px); }
+    .footer-right { flex: 1 1 400px; }
+    .footer-right p { font-size: 0.92rem; line-height: 1.8; color: #ccc; }
+    .footer-right a { color: #00ffe7; text-decoration: none !important; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 38px; padding-top: 18px; text-align: center; font-size: 0.88rem; color: #aaa; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { display: none; } .menu-toggle { display: block; }
+      .logo img { height: 58px; }
+      .hero-heading { font-size: 1.8rem; }
+      .growth-section { flex-direction: column; text-align: center; padding: 20px; }
+      .growth-text, .growth-image { flex: 1 1 100%; }
+      .growth-text h2 { font-size: 1.6rem; }
+      .neon-section { flex-direction: column; text-align: center; padding: 40px 20px; }
+      .neon-left, .neon-right { flex: 1 1 100%; }
+      .testi-card { flex: 0 0 100%; }
+      .promo-world { flex-direction: column; text-align: center; }
+      .counter-wrapper { gap: 12px; }
+      .plain-counter { flex: 1 1 calc(50% - 12px); }
+      .plain-counter .count { font-size: 2rem; }
+      .section-heading { font-size: 1.7rem; }
+      .consult-section h2 { font-size: 1.8rem; }
+      .footer-left, .footer-right { flex: 1 1 100%; text-align: center; }
+      .footer-logo { margin: 0 auto 14px; }
+      .social-icons { justify-content: center; }
+      .footer-btns { justify-content: center; }
+      .logo-slide { flex: 0 0 calc(100% - 0px); }
+      .logo-carousel-wrapper { padding: 0 50px 30px; }
+      .logo-slide .logo-img-wrap { width: 120px; height: 120px; }
+    }
+    @media (max-width: 480px) {
+      .hero-heading { font-size: 1.45rem; }
+      .cta-button { padding: 11px 24px; font-size: 0.85rem; }
+    }
+    @media (min-width: 480px) and (max-width: 768px) {
+      .logo-slide { flex: 0 0 calc(50% - 15px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+  <div class="logo">
+    <img src="https://betagramexch.online/wp-content/uploads/2026/04/Add-a-little-bit-of-body-text-71.png" alt="Telegroww Logo">
+  </div>
+  <nav>
+    <a href="#home"><svg viewBox="0 0 24 24"><path d="M12 3l9.5 8.5-1.5 1.5-2-2V19H6v-8l-2 2-1.5-1.5L12 3z"/></svg>Home</a>
+    <a href="#about"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 1.4c-3 0-9 1.5-9 4.5V21h18v-3.1c0-3-6-4.5-9-4.5z"/></svg>About</a>
+    <a href="#pricing"><svg viewBox="0 0 24 24"><path d="M12 2l10 9-10 9-10-9 10-9zm0 3.7L5.4 11 12 17.3 18.6 11 12 5.7z"/></svg>Pricing</a>
+    <a href="#contact"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.1 2.1 2.9 3.9 5 5l1.6-1.6c.3-.3.8-.4 1.1-.2 1.2.5 2.5.8 3.9.8.6 0 1 .5 1 1v2.5c0 .6-.4 1-1 1C10.1 20 4 13.9 4 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .5 1 1 0 1.3.3 2.6.8 3.9.2.3.1.8-.2 1.1l-1.5 1.3z"/></svg>Contact</a>
+  </nav>
+  <button class="menu-toggle" type="button" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <span class="close-btn" onclick="toggleMenu()">×</span>
+  <a href="#home" onclick="toggleMenu()"><svg viewBox="0 0 24 24"><path d="M12 3l9.5 8.5-1.5 1.5-2-2V19H6v-8l-2 2-1.5-1.5L12 3z"/></svg>Home</a>
+  <a href="#about" onclick="toggleMenu()"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 1.4c-3 0-9 1.5-9 4.5V21h18v-3.1c0-3-6-4.5-9-4.5z"/></svg>About</a>
+  <a href="#pricing" onclick="toggleMenu()"><svg viewBox="0 0 24 24"><path d="M12 2l10 9-10 9-10-9 10-9zm0 3.7L5.4 11 12 17.3 18.6 11 12 5.7z"/></svg>Pricing</a>
+  <a href="#contact" onclick="toggleMenu()"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.1 2.1 2.9 3.9 5 5l1.6-1.6c.3-.3.8-.4 1.1-.2 1.2.5 2.5.8 3.9.8.6 0 1 .5 1 1v2.5c0 .6-.4 1-1 1C10.1 20 4 13.9 4 6.5c0-.6.4-1 1-1H7.5c.6 0 1 .5 1 1 0 1.3.3 2.6.8 3.9.2.3.1.8-.2 1.1l-1.5 1.3z"/></svg>Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-heading">
+    Your Growth, Our Mission<br/>
+    Elevating Your Digital Footprint with<br/>
+    <span class="highlighted-word animate-in" id="animated-highlight">Cutting Edge Technology</span><br/>
+    and passion...
+  </div>
+  <div class="hero-img-wrap">
+    <img src="https://betagramexch.online/wp-content/uploads/2026/04/52caf931-ed86-443d-a37b-da832c99134f.jpeg-scaled-1.jpg" alt="Telegroww Dashboard"
+         onerror="this.style.display='none'; document.getElementById('hero-placeholder').style.display='flex';">
+    <div id="hero-placeholder" class="img-box" style="display:none; min-height:360px; border-radius:0;">
+      <span class="icon">🖥️</span>
+      <strong>HERO DASHBOARD IMAGE</strong>
+      <span>Upload your dashboard screenshot here<br>Replace src="https://betagramexch.online/wp-content/uploads/2026/04/52caf931-ed86-443d-a37b-da832c99134f.jpeg-scaled-1.jpg"</span>
+    </div>
+  </div>
+  <p style="text-align:center; color:#ccc; font-size:0.98rem; line-height:1.8; max-width:760px; margin:34px auto 0;">
+    At Telegroww, we specialize in expanding your digital presence with tailored marketing solutions. Our team is dedicated to amplifying your brand's voice while captivating and engaging your target audience. Let us help you achieve new heights in the digital landscape.
+  </p>
+  <div style="text-align:center; margin-top:28px;">
+    <a href="http://wa.me/918306790277" class="cta-button">Start Growing Now</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="padding: 55px 20px 15px;">
+  <h2 class="section-heading grad-text">Trusted by Companies Worldwide</h2>
+  <p class="section-sub">At Telegroww, we excel in helping diverse channels thrive. Our expertise in delivering targeted ads ensures that your channel captures attention, drives engagement, and increases membership. Let us assist you in growing your community and achieving your goals.</p>
+
+  <!-- =============================================
+       3-CARD CAROUSEL WITH ARROWS + DOTS
+       Each slide shows Logo + Name + Description
+       Shows 3 at a time on desktop, 2 on tablet, 1 on mobile
+  ============================================= -->
+  <div class="logo-carousel-wrapper">
+    <button class="carousel-btn prev" id="logoPrev" onclick="logoCarousel(-1)">&#8249;</button>
+    <div class="logo-carousel-track-outer">
+      <div class="logo-carousel-track" id="logoTrack">
+
+        <!-- CLIENT 1: Mahakal Book — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo20.jpg" alt="Mahakal Book"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(100,0,200,0.7);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>MAHAKAL<br>BOOK</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 2: Lotus365 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo11.jpg" alt="Lotus365"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,140,0,0.85);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>LOTUS<br>365</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 3: Pari Book — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo13.jpg" alt="Pari Book"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(20,20,20,0.9);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:#d4af37;\'>PARI<br>BOOK</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 4 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo12.jpg" alt="Client 4"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,60,160,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>4</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 5 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo4.jpg" alt="Client 5"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(160,0,60,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>5</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 6 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo1.jpg" alt="Client 6"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,120,120,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>6</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 7 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo3.jpg" alt="Client 7"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(80,0,120,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>7</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 8 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo2.jpg" alt="Client 8"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(180,80,0,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>8</div>'">
+          </div>
+        </div>
+
+        <!-- CLIENT 9 — replace src with your logo image -->
+        <div class="logo-slide">
+          <div class="logo-img-wrap">
+            <img src="https://betagramexch.online/wp-content/uploads/2026/04/logo5.jpg" alt="Client 9"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,100,50,0.8);border-radius:50%;font-size:0.7rem;font-weight:700;text-align:center;padding:10px;color:white;\'>CLIENT<br>9</div>'">
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <button class="carousel-btn next" id="logoNext" onclick="logoCarousel(1)">&#8250;</button>
+
+    <!-- Dots -->
+    <div class="carousel-dots" id="logoDots"></div>
+  </div>
+</section>
+
+<!-- GROWTH SECTION -->
+<div class="growth-section">
+  <div class="growth-image">
+    <img src="https://betagramexch.online/wp-content/uploads/2026/04/Untitled_design-removebg-preview.png" alt="Phone Mockup"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div class="img-box" style="display:none; min-height:310px;">
+      <span class="icon">📱</span>
+      <strong>PHONE MOCKUP IMAGE</strong>
+      <span>Upload: growth_phones.png</span>
+    </div>
+  </div>
+  <div class="growth-text">
+    <h2 class="grad-text">Empowering Channels with Targeted Ads for Unmatched Growth</h2>
+    <p>At Telegroww, we specialize in elevating your channel's success with tailored advertising solutions. Our services are trusted by leading channels across various niches. Let us help you achieve outstanding results and grow your audience.</p>
+    <div class="feature"><span>Tailored Advertising Solutions:</span> Customized ads crafted specifically for your target audience, ensuring maximum engagement and impact.</div>
+    <div class="feature"><span>Data-Driven Strategies:</span> Launch effective campaigns powered by comprehensive analytics, ensuring informed decisions and optimized results.</div>
+    <div class="feature"><span>Proven Results:</span> Trusted by leading channels for delivering tangible growth and meaningful engagement.</div>
+    <div class="feature"><span>Maximized ROI:</span> Delivering efficient and impactful advertising to ensure the highest return on your investment.</div>
+    <div class="cta-line">Partner with Telegroww to elevate your channel's presence and achieve exceptional growth.</div>
+  </div>
+</div>
+
+<!-- NEON LOTTIE SECTION -->
+<div class="neon-section">
+  <div class="neon-left">
+    <lottie-player
+      src="https://telegroww.in/wp-content/uploads/2025/05/Animation-1718362793690.json"
+      background="transparent" speed="1"
+      style="max-width:360px; width:100%; height:auto;"
+      loop autoplay>
+    </lottie-player>
+  </div>
+  <div class="neon-right">
+    <h2 class="grad-text">Transform Your Channel with Telegroww</h2>
+    <p>Telegroww specializes in revolutionizing channels through innovative advertising solutions. Our expertise in campaign management, precision targeting, and continuous performance optimization ensures your channel achieves exceptional growth and engagement. Partner with Telegroww to elevate your presence and unlock your channel's full potential.</p>
+    <a href="http://wa.me/918306790277" class="cta-button">Start Growing Now</a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <h2 class="section-heading grad-text">Client Voices: Sharing Their Success Stories</h2>
+  <p class="section-sub">Discover how Telegroww's tailored strategies have driven remarkable growth for businesses like yours. Our client testimonials highlight how our innovative solutions have led to increased engagement and expanded communities.</p>
+  <div class="testi-wrap">
+    <div class="testi-track" id="testiTrack">
+      <div class="testi-card">
+        <img src="https://betagramexch.online/wp-content/uploads/2026/04/4.png" alt="Review 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 1</strong><span>Upload: review_1.png</span></div>
+      </div>
+      <div class="testi-card">
+        <img src="https://betagramexch.online/wp-content/uploads/2026/04/3.png" alt="Review 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 2</strong><span>Upload: review_2.png</span></div>
+      </div>
+      <div class="testi-card">
+        <img src="https://betagramexch.online/wp-content/uploads/2026/04/2.png" alt="Review 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 3</strong><span>Upload: review_3.png</span></div>
+      </div>
+      <div class="testi-card">
+        <img src="https://betagramexch.online/wp-content/uploads/2026/04/1.png" alt="Review 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-box" style="display:none; min-height:210px; border-radius:0;"><span class="icon">⭐</span><strong>REVIEW CARD 4</strong><span>Upload: review_4.png</span></div>
+      </div>
+    </div>
+    <button class="slider-btn slider-prev" onclick="slideTesti(-1)">‹</button>
+    <button class="slider-btn slider-next" onclick="slideTesti(1)">›</button>
+  </div>
+  <div style="text-align:center; margin-top:38px;">
+    <a href="http://wa.me/918306790277" class="cta-button">Start Growing Now</a>
+  </div>
+</section>
+
+<!-- PRICING / DEVICES -->
+<section id="pricing">
+  <h2 class="section-heading grad-text" style="font-size:2.2rem;">Accessible through all devices</h2>
+  <p style="font-size:0.98rem; line-height:1.7; color:#bbb; text-align:center; max-width:680px; margin:0 auto;">
+    Experience the Power of Effective Digital Marketing with <strong>Telegroww</strong><br>
+    Elevate your channel to new heights with our expertise.<br>
+    <strong>Try our free consultancy today</strong> and see the difference we can make.
+  </p>
+  <div class="devices-box">
+    <img src="https://betagramexch.online/wp-content/uploads/2026/04/Untitled_design_-_2024-06-14T155738.822-removebg-preview.png" alt="All Devices" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div class="img-box" style="display:none; min-height:240px;"><span class="icon">💻</span><strong>DEVICES MOCKUP IMAGE</strong><span>Upload: devices_mockup.png</span></div>
+  </div>
+</section>
+
+<!-- PROMO + WORLD MAP -->
+<section style="background:#0f0f1b; padding:10px 0 30px;">
+  <div class="promo-world">
+    <div class="promo-text">
+      <h2 class="grad-text">Transform Your Channel with Telegroww</h2>
+      <p>Telegroww specializes in revolutionizing trading and betting channels through innovative advertising solutions. Our expert campaign management, precision targeting, and performance optimization ensure your channel achieves outstanding growth and engagement.</p>
+      <a href="http://wa.me/918306790277" class="cta-button">Get Started Today</a>
+    </div>
+    <div class="world-side">
+      <img src="https://betagramexch.online/wp-content/uploads/2026/04/world-map-on-white-color-world-map-template-with-continents-north-and-south-america-europe-and-asia-africa-and-australia-png.webp" alt="World Map" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="img-box" style="display:none; min-height:200px;"><span class="icon">🌍</span><strong>WORLD MAP IMAGE</strong><span>Upload: world_map.png</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTERS -->
+<div class="counter-section">
+  <div class="counter-wrapper">
+    <div class="plain-counter"><div class="count" data-target="1236" data-suffix="+">0</div><p>Total Clients</p></div>
+    <div class="plain-counter"><div class="count" data-target="98" data-suffix="%">0</div><p>Accuracy %</p></div>
+    <div class="plain-counter"><div class="count" data-target="782" data-suffix="+">0</div><p>Active Clients</p></div>
+    <div class="plain-counter"><div class="count" data-target="82" data-suffix=" Cr+">0</div><p>Cr+ Ad Budget Managed</p></div>
+  </div>
+</div>
+
+<!-- CONSULTANCY CTA -->
+<section class="consult-section">
+  <h2 class="grad-text">Book Our Free Consultancy Today</h2>
+  <p>Telegroww is a leading digital marketing agency dedicated to enhancing the success of trading and betting channels. We specialize in crafting customized advertising strategies that boost visibility, engagement, and community growth. Our innovative, data-driven approach ensures your campaigns are effective and deliver measurable results.<br><br>
+  With a team of experts who understand the unique dynamics of your industry, Telegroww is trusted by clients globally to provide tailored solutions that drive real growth. We focus on optimizing every aspect of your channel's presence, from targeted audience reach to performance analytics, ensuring sustained success. Experience the difference with Telegroww. Try our free consultancy today.</p>
+  <a href="http://wa.me/918306790277" class="cta-button">Start Growing Now</a>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <img src="https://betagramexch.online/wp-content/uploads/2026/04/Add-a-little-bit-of-body-text-71.png" alt="Telegroww" class="footer-logo" onerror="this.style.opacity='0'">
+      <span class="footer-brand grad-text">Telegroww</span>
+
+      <!-- SOCIAL ICONS WITH PROPER SVG LOGOS -->
+      <div class="social-icons">
+        <!-- WhatsApp -->
+        <a href="http://wa.me/918306790277" class="whatsapp" title="WhatsApp">
+          <svg viewBox="0 0 32 32">
+            <path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.217 6.338L4.5 28l6.809-1.686A11.94 11.94 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10c-1.79 0-3.47-.472-4.926-1.299L10.5 25l1.322-4.46A9.947 9.947 0 016 15c0-5.523 4.477-10 10-10zm-3.5 5c-.25 0-.643.094-.981.438C11.181 10.781 10 12.188 10 13.875c0 1.688 1.25 3.313 1.438 3.563.188.25 2.438 3.875 5.968 5.281 2.975 1.177 3.532.938 4.094.875.563-.063 1.813-.75 2.063-1.469.25-.719.25-1.344.188-1.469-.063-.125-.25-.188-.5-.313s-1.563-.781-1.813-.875c-.25-.094-.375-.125-.563.125-.188.25-.75.875-.938 1.063-.188.188-.375.219-.688.063-.313-.156-1.313-.469-2.5-1.5-.938-.813-1.563-1.813-1.75-2.063-.188-.25-.019-.375.131-.5.147-.125.313-.344.469-.531.156-.188.219-.313.313-.5.094-.188.063-.344-.031-.5-.094-.156-.563-1.375-.781-1.875-.219-.5-.438-.406-.563-.406h-.375z"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/profile.php?id=61560965270396" class="facebook" title="Facebook">
+          <svg viewBox="0 0 32 32">
+            <path fill="white" d="M16 3C9.373 3 4 8.373 4 15c0 5.996 4.4 10.983 10.156 11.85V18.5h-3v-3.5h3v-2.688c0-2.969 1.77-4.594 4.469-4.594 1.293 0 2.656.125 3.531.25v3.063h-2c-1.5 0-1.656.688-1.656 1.75V15h3.344l-.5 3.5H18.5v8.35C24.286 25.999 28 21.108 28 15c0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/telegroww/" class="instagram" title="Instagram">
+          <svg viewBox="0 0 32 32">
+            <path fill="white" d="M16 4c-3.264 0-3.674.014-4.95.072-1.27.058-2.138.26-2.898.555a5.854 5.854 0 00-2.117 1.378A5.854 5.854 0 004.657 8.12c-.295.76-.497 1.628-.555 2.898C4.014 12.294 4 12.704 4 16s.014 3.674.072 4.95c.058 1.27.26 2.138.555 2.898a5.854 5.854 0 001.378 2.117 5.854 5.854 0 002.117 1.378c.76.295 1.628.497 2.898.555C11.294 27.986 11.704 28 16 28s3.674-.014 4.95-.072c1.27-.058 2.138-.26 2.898-.555a5.854 5.854 0 002.117-1.378 5.854 5.854 0 001.378-2.117c.295-.76.497-1.628.555-2.898C27.986 19.706 28 19.296 28 16s-.014-3.674-.072-4.95c-.058-1.27-.26-2.138-.555-2.898a5.854 5.854 0 00-1.378-2.117A5.854 5.854 0 0023.878 4.6c-.76-.295-1.628-.497-2.898-.555C19.706 4.014 19.296 4 16 4zm0 2.162c3.204 0 3.584.012 4.85.07 1.17.053 1.805.249 2.228.413.56.217.96.477 1.38.896.42.42.68.82.896 1.38.164.423.36 1.058.413 2.228.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.17-.249 1.805-.413 2.228a3.72 3.72 0 01-.896 1.38 3.72 3.72 0 01-1.38.896c-.423.164-1.058.36-2.228.413-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.053-1.805-.249-2.228-.413a3.72 3.72 0 01-1.38-.896 3.72 3.72 0 01-.896-1.38c-.164-.423-.36-1.058-.413-2.228C6.174 19.584 6.162 19.204 6.162 16s.012-3.584.07-4.85c.053-1.17.249-1.805.413-2.228.217-.56.477-.96.896-1.38.42-.42.82-.68 1.38-.896.423-.164 1.058-.36 2.228-.413C12.415 6.174 12.796 6.162 16 6.162zm0 3.676a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm7.846-10.406a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="footer-btns">
+        <a href="https://www.termsfeed.com/live/51279bdf-a375-47f2-96f1-b154c9a79faf" class="neon-button">Terms & Conditions</a>
+        <a href="https://www.freeprivacypolicy.com/live/177e1ec0-46a2-40a9-8ada-ad19bb9b11a3" class="neon-button">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p>
+        <strong>Address:</strong><br>
+        197A, Shree Ganesh Industrial Complex<br>
+        DSIIDC Industrial Area, Bawana<br>
+        North West, New Delhi – 110039, Delhi, India<br><br>
+        <strong>Email:</strong> <a href="mailto:telegroww@gmail.com">telegroww@gmail.com</a><br><br>
+        <strong>Phone:</strong> <a href="tel:+918306790277">+91 8306790277</a><br><br>
+        Telegroww is a leading digital marketing agency dedicated to optimizing trading and channels. We specialize in crafting tailored advertising strategies that enhance visibility, engagement, and community growth. Trusted by clients worldwide, we empower businesses to thrive in the digital landscape through innovative solutions and proven expertise.
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">| All Rights Reserved © Telegroww 2025</div>
+</footer>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    const nav = document.getElementById("mobileNav");
+    nav.classList.toggle("open");
+    document.body.style.overflow = nav.classList.contains("open") ? "hidden" : "auto";
+  }
+
+  // Animated headline rotation
+  const phrases = ["Strategic Excellence", "Data-Driven Results", "Growth Accelerators", "Cutting Edge Technology"];
+  let pi = 0;
+  const hl = document.getElementById("animated-highlight");
+  setInterval(() => {
+    hl.classList.remove('animate-in');
+    hl.classList.add('animate-out');
+    setTimeout(() => {
+      pi = (pi + 1) % phrases.length;
+      hl.textContent = phrases[pi];
+      hl.classList.remove('animate-out');
+      hl.classList.add('animate-in');
+    }, 400);
+  }, 3000);
+
+  // =============================================
+  // LOGO CAROUSEL — 3 at a time with dots
+  // =============================================
+  (function initLogoCarousel() {
+    const track = document.getElementById('logoTrack');
+    const dotsContainer = document.getElementById('logoDots');
+    const prevBtn = document.getElementById('logoPrev');
+    const nextBtn = document.getElementById('logoNext');
+    const slides = track.querySelectorAll('.logo-slide');
+    let currentIndex = 0;
+
+    function getPerView() {
+      if (window.innerWidth <= 480) return 1;
+      if (window.innerWidth <= 768) return 2;
+      return 3;
+    }
+
+    function totalPages() {
+      return Math.ceil(slides.length / getPerView());
+    }
+
+    function createDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalPages(); i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goTo(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function goTo(index) {
+      const perView = getPerView();
+      const maxIndex = totalPages() - 1;
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      const slideWidth = slides[0].offsetWidth + 30; // gap is 30px
+      track.style.transform = `translateX(-${currentIndex * perView * slideWidth}px)`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= maxIndex;
+      updateDots();
+    }
+
+    window.logoCarousel = function(dir) {
+      goTo(currentIndex + dir);
+    };
+
+    window.addEventListener('resize', () => {
+      currentIndex = 0;
+      createDots();
+      goTo(0);
+    });
+
+    createDots();
+    goTo(0);
+  })();
+
+  // Counter animation on scroll
+  let counted = false;
+  function animateCounters() {
+    document.querySelectorAll(".count").forEach(el => {
+      const target = +el.getAttribute("data-target");
+      const suffix = el.getAttribute("data-suffix") || "+";
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const t = setInterval(() => {
+        current += step;
+        if (current >= target) { el.textContent = target + suffix; clearInterval(t); }
+        else { el.textContent = current; }
+      }, 18);
+    });
+  }
+  const cSec = document.querySelector(".counter-section");
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) { counted = true; animateCounters(); }
+  }, { threshold: 0.3 }).observe(cSec);
+
+  // Testimonial slider
+  let tIdx = 0;
+  const tTrack = document.getElementById("testiTrack");
+  function slideTesti(dir) {
+    const cards = tTrack.querySelectorAll(".testi-card");
+    const perView = window.innerWidth <= 768 ? 1 : 3;
+    tIdx = Math.max(0, Math.min(tIdx + dir, cards.length - perView));
+    tTrack.style.transform = `translateX(-${tIdx * (cards[0].offsetWidth + 22)}px)`;
+  }
+  window.addEventListener("resize", () => { tIdx = 0; tTrack.style.transform = "translateX(0)"; });
+</script>
+</body>
+</html>
